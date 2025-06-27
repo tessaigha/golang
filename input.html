@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tambah Barang</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f0f2f5;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+    input, button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">➕ Tambah Barang</h2>
+  <form id="barangForm">
+    <input type="text" id="nama" placeholder="Nama Barang" required />
+    <input type="number" id="harga" placeholder="Harga" required />
+    <input type="number" id="stok" placeholder="Stok" required />
+    <button type="submit">Simpan</button>
+  </form>
+
+  <script>
+    document.getElementById('barangForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const data = {
+        nama: document.getElementById('nama').value,
+        harga: parseFloat(document.getElementById('harga').value),
+        stok: parseInt(document.getElementById('stok').value)
+      };
+
+      fetch('http://localhost:8080/barang', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(res => {
+        alert('✅ Barang berhasil ditambahkan:\n' + JSON.stringify(res, null, 2));
+        document.getElementById('barangForm').reset();
+        window.location.href = 'index.html';
+      })
+      .catch(err => alert('❌ Gagal menyimpan barang:\n' + err));
+    });
+  </script>
+</body>
+</html>

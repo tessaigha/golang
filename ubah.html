@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Ubah Barang</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align: center;">✏️ Ubah Data Barang</h2>
+  <form id="ubahForm">
+    <input type="number" id="id" placeholder="ID Barang" required />
+    <input type="text" id="nama" placeholder="Nama Baru" required />
+    <input type="number" id="harga" placeholder="Harga Baru" required />
+    <input type="number" id="stok" placeholder="Stok Baru" required />
+    <button type="submit">Simpan Perubahan</button>
+  </form>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
+
+if (id) {
+  document.getElementById('id').value = id;
+
+  fetch(`http://localhost:8080/barang/${id}`)
+    .then(res => res.json())
+    .then(barang => {
+      document.getElementById('nama').value = barang.nama;
+      document.getElementById('harga').value = barang.harga;
+      document.getElementById('stok').value = barang.stok;
+    })
+    .catch(err => console.error("Gagal mengambil data barang:", err));
+}
+
+  </script>
+  <script>
+    document.getElementById('ubahForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+  
+      const id = document.getElementById('id').value;
+      const data = {
+        nama: document.getElementById('nama').value,
+        harga: parseFloat(document.getElementById('harga').value),
+        stok: parseInt(document.getElementById('stok').value)
+      };
+  
+      fetch(`http://localhost:8080/barang/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(res => {
+          alert('✅ Barang berhasil diubah:\n' + JSON.stringify(res, null, 2));
+          // Redirect ke halaman daftar (opsional)
+          window.location.href = 'index.html';
+        })
+        .catch(err => {
+          alert('❌ Gagal mengubah barang:\n' + err);
+        });
+    });
+  </script>
+  
+</body>
+</html>

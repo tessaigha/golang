@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Daftar Barang</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: white;
+    }
+    th, td {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    input[type="text"],
+    input[type="number"] {
+      width: 100px;
+    }
+    button {
+      margin: 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>📦 Daftar Barang Kasir</h2>
+  <a href="input.html" target="_blank"><button>💾 Tambah data</button></a>
+  <table id="barangTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nama</th>
+        <th>Harga</th>
+        <th>Stok</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data dari API akan dimasukkan di sini -->
+    </tbody>
+  </table>
+
+  <script>
+    fetch('http://localhost:8080/barang')
+      .then(response => response.json())
+      .then(data => {
+        const tbody = document.querySelector('#barangTable tbody');
+        data.forEach(barang => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${barang.id}</td>
+            <td>${barang.nama}</td>
+            <td>${barang.harga}</td>
+            <td>${barang.stok}</td>
+          
+               
+  <a href="ubah.html?id=${barang.id}" target="_blank"><button>✏️</button></a>
+  <button onclick="hapusBarang(${barang.id})">🗑️</button>
+</td>
+
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(error => console.error('Gagal ambil data:', error));
+
+    function hapusBarang(id) {
+      if (confirm('Yakin ingin menghapus barang ini?')) {
+        fetch(`http://localhost:8080/barang/${id}`, {
+          method: 'DELETE'
+        })
+        .then(() => location.reload())
+        .catch(err => alert('Gagal menghapus: ' + err));
+      }
+    }
+
+    function simpanBarang(id) {
+      const data = {
+        nama: document.getElementById(`nama-${id}`).value,
+        harga: parseFloat(document.getElementById(`harga-${id}`).value),
+        stok: parseInt(document.getElementById(`stok-${id}`).value)
+      };
+
+      fetch(`http://localhost:8080/barang/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(() => location.reload())
+      .catch(err => alert('Gagal mengubah: ' + err));
+    }
+  </script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
+
+if (id) {
+  document.getElementById('id').value = id;
+
+  fetch(`http://localhost:8080/barang/${id}`)
+    .then(res => res.json())
+    .then(barang => {
+      document.getElementById('nama').value = barang.nama;
+      document.getElementById('harga').value = barang.harga;
+      document.getElementById('stok').value = barang.stok;
+    })
+    .catch(err => console.error("Gagal mengambil data barang:", err));
+}
+
+  </script>
+  
+</body>
+</html>
