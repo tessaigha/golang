@@ -12,5 +12,5 @@ Repositori ini berisi kumpulan contoh, latihan, dan implementasi praktis menggun
 - ✅ Manajemen proyek: `go mod`, struktur folder modular
 - ✅ Contoh penggunaan error handling: `panic`, `recover`, `defer`
 
-## 🗂️ Struktur Folder (Contoh)
+❤️ oleh tessaigha — Developer yang semangat belajar dan eksplorasi teknologi 👨‍💻
 
