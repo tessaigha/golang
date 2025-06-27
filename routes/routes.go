@@ -24,7 +24,7 @@ func SetupRouter() *gin.Engine {
 	r.GET("/user/:id", controllers.GetUserByID)
 
 	r.GET("/pembelian", controllers.GetPembelian)
-	// r.POST("/pembelian", controllers.AddPembelian)
+	r.POST("/pembelian", controllers.AddPembelian)
 	// r.DELETE("/pembelian/:id", controllers.DeleteUser)
 	// r.PUT("/pembelian/:id", controllers.UpdateUser)
 	// r.GET("/pembelian/:id", controllers.GetUserByID)
