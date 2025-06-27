@@ -1,12 +1,11 @@
 package models
 
-type pembelian struct {
-	ID           int    `json:"id" bson:"_id"`                    // ID pembelian
-	Kode_Barang  string `json:"kode_barang" bson:"kode_barang"`   // Kode barang yang dibeli
-	Nama_Barang  string `json:"nama_barang" bson:"nama_barang"`   // Nama barang
-	Harga_Beli   int    `json:"harga_beli" bson:"harga_beli"`     // H
-	Jumlah       int    `json:"jumlah_beli" bson:"jumlah_beli"`   // Jumlah pemb
-	Tanggal_Beli string `json:"tanggal_beli" bson:"tanggal_beli"` //
-	supplier     string `json:"supplier" bson:"supplier"`         // Nama supplier
-
+type Pembelian struct {
+	ID           int    `json:"id" bson:"_id"`
+	Kode_Barang  string `json:"kode_barang" bson:"kode_barang"`
+	Nama_Barang  string `json:"nama_barang" bson:"nama_barang"`
+	Harga_Beli   int    `json:"harga_beli" bson:"harga_beli"`
+	Jumlah       int    `json:"jumlah_beli" bson:"jumlah_beli"`
+	Tanggal_Beli string `json:"tanggal_beli" bson:"tanggal_beli"`
+	Supplier     string `json:"supplier" bson:"supplier"`
 }
